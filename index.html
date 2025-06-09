@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Form</title>
+</head>
+<body>
+  <h1>User Registration</h1>
+  <form id="userForm">
+    <input type="text" placeholder="Name" id="name" required><br>
+    <input type="number" placeholder="Age" id="age" required><br>
+    <input type="text" placeholder="Phone Number" id="phone" required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <button onclick="fetchUsers()">Show Info</button>
+  <div id="userList"></div>
+
+  <script>
+    const form = document.getElementById('userForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = {
+        name: document.getElementById('name').value,
+        age: document.getElementById('age').value,
+        phone: document.getElementById('phone').value
+      };
+
+      const res = await fetch('http://localhost:5000/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+      });
+
+      if (res.ok) {
